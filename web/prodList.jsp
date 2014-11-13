@@ -2,6 +2,7 @@
 <%@ include file="/includes/header.html" %>
     
 <h1>Products</h1>
+
 <table class="border">
   <tr>
     <th>Code</th>
@@ -11,7 +12,7 @@
     <th>&nbsp;</th>
   </tr>
   <c:choose>
-    <c:when test="${products != null}">
+    <c:when test="${products != '[]'}">
       <c:forEach var="product" items="${products}">
       <tr>
         <td><c:out value="${product.code}" /></td>

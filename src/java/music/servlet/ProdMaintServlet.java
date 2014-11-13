@@ -73,13 +73,12 @@ public class ProdMaintServlet extends HttpServlet {
           
           // decide between update and insert
           if (isInsert) {
-            System.out.println("INSERT");
             ProductDB.insert(newProduct);
           } else {
-            System.out.println("UPDATE");
             ProductDB.update(newProduct);
           }
 
+          session.setAttribute("products", ProductDB.selectAll());
           url = "/prodList.jsp";
         }
         catch (Exception e)
@@ -108,6 +107,7 @@ public class ProdMaintServlet extends HttpServlet {
           ProductDB.delete(delProduct);
         }
         
+        session.setAttribute("products", ProductDB.selectAll());
         url = "/prodList.jsp";
         break;
     }
@@ -121,5 +121,5 @@ public class ProdMaintServlet extends HttpServlet {
     throws ServletException, IOException
   {
     doPost(request, response);
-  }   
+  }  
 }

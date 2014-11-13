@@ -184,10 +184,11 @@ public class ProductDB {
     List<Product> products;
     try {
       products = q.getResultList();
-      if (products.isEmpty())
-        products = null;
+    } catch (NoResultException e) {
+      System.out.println(e);
+      products = null;
     } finally {
-        em.close();
+      em.close();
     }
     return products;
   }
@@ -213,7 +214,6 @@ public class ProductDB {
   public static void update(Product product) {
     EntityManager em = DBUtil.getEmFactory().createEntityManager();
     EntityTransaction trans = em.getTransaction();
-    System.out.println("UPDATEDB");
     try {
       trans.begin();
       em.merge(product);
@@ -229,7 +229,6 @@ public class ProductDB {
   public static void insert(Product product) {
     EntityManager em = DBUtil.getEmFactory().createEntityManager();
     EntityTransaction trans = em.getTransaction();
-    System.out.println("INSERTDB");
     try {
       trans.begin();
       em.persist(product);
