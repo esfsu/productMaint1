@@ -3,6 +3,10 @@
     
 <h1>Product</h1>
 
+<c:if test="${error != null}">
+  <p class="error">There was an error in your entry, please ensure all fields are filled out properly.</p>
+</c:if>
+
 <form action="productMaint" method="post">
   <label for="prodCode">Code:</label> 
     <input type="text" name="prodCode" value="<c:out value="${product.code}" />" required /><br />
@@ -12,7 +16,7 @@
     <input type="text" name="prodPrice" value="<c:out value="${product.price}" />" required /><br />
 
   <input type="hidden" name="action" value="addConfirmed">
-  <input type="submit" value="Update Product">
+  <input type="submit" value="Add Product">
 </form>
 
 <form action="productMaint" method="post">

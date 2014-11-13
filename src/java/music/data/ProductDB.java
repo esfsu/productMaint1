@@ -5,16 +5,11 @@
  */
 package music.data;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import music.business.Product;
-import music.data.DBUtil;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 /**
@@ -23,7 +18,7 @@ import javax.persistence.TypedQuery;
  */
 public class ProductDB {
    
-//    // JDBC Part
+//   JDBC Part
 //   public static ArrayList<Product> selectAll() {
 //    ConnectionPool pool = ConnectionPool.getInstance();
 //    Connection connection = pool.getConnection();
@@ -48,14 +43,12 @@ public class ProductDB {
 //            System.out.println(e);
 //            return null;
 //        } finally {
-//  //          DBUtil.closeResultSet(rs);
-//  //          DBUtil.closePreparedStatement(ps);
-//            pool.freeConnection(connection);
-//        
+//            DBUtil.closeResultSet(rs);
+//            DBUtil.closePreparedStatement(ps);
+//            pool.freeConnection(connection);    
 //    }
-//   }
+//  }
    
-    
 //    public static Product selectByCode(String code) {
 //    ConnectionPool pool = ConnectionPool.getInstance();
 //    Connection connection = pool.getConnection();
@@ -79,13 +72,11 @@ public class ProductDB {
 //            System.out.println(e);
 //            return null;
 //        } finally {
-//        // DBUtil.closeResultSet(rs);
-//        //DBUtil.closePreparedStatement(ps);
-//        pool.freeConnection(connection);
-//  }
-//  }
-    
-    
+//          DBUtil.closeResultSet(rs);
+//          DBUtil.closePreparedStatement(ps);
+//          pool.freeConnection(connection);
+//    }
+//  }  
 
 //   public static Boolean codeExists(String code) {
 //  
@@ -105,13 +96,11 @@ public class ProductDB {
 //            System.out.println(e);
 //            return false;
 //        } finally {
-//      //      DBUtil.closeResultSet(rs);
-//      //      DBUtil.closePreparedStatement(ps);
+//            DBUtil.closeResultSet(rs);
+//            DBUtil.closePreparedStatement(ps);
 //            pool.freeConnection(connection);
 //        }
 //    }
-    
- 
     
 //   public static int update(Product product)  {
 //    ConnectionPool pool = ConnectionPool.getInstance();
@@ -135,11 +124,10 @@ public class ProductDB {
 //        System.out.println(e);
 //        return 0;
 //    } finally {
-//   //     DBUtil.closePreparedStatement(ps);
+//        DBUtil.closePreparedStatement(ps);
 //        pool.freeConnection(connection);
 //    }
 //}
-   
 
  //  public static int insert(Product product) {   
 //       ConnectionPool pool = ConnectionPool.getInstance();
@@ -159,13 +147,10 @@ public class ProductDB {
 //        System.out.println(e);
 //        return 0;
 //    } finally {
-//        // Got to fix
-//   //     DBUtil.closePreparedStatement(ps);
+//        DBUtil.closePreparedStatement(ps);
 //        pool.freeConnection(connection);
 //    }
-   // }
-       
-
+// }
 
 //   public static int delete(Product product)  {
 //       ConnectionPool pool = ConnectionPool.getInstance();
@@ -183,103 +168,95 @@ public class ProductDB {
 //        System.out.println(e);
 //        return 0;
 //    } finally {
-//    //    DBUtil.closePreparedStatement(ps);
+//        DBUtil.closePreparedStatement(ps);
 //        pool.freeConnection(connection);
 //    } 
 //  }
-    // JDBC Part End
+// JDBC Part End
     
        
-          // JPA Part
-    public static List<Product> selectAll() {
-      EntityManager em = DBUtil.getEmFactory().createEntityManager();
-      String qString = "SELECT u FROM Product u";
-      TypedQuery<Product> q = em.createQuery(qString, Product.class);
+  // JPA Part
+  public static List<Product> selectAll() {
+    EntityManager em = DBUtil.getEmFactory().createEntityManager();
+    String qString = "SELECT u FROM Product u";
+    TypedQuery<Product> q = em.createQuery(qString, Product.class);
 
-      List<Product> products;
-      try {
-        products = q.getResultList();
-        if (products == null || products.isEmpty())
-            products = null;
-      } finally {
-          em.close();
-      }
-      return products;
-    }
-       
-    public static Product selectByCode(String code) {
-      EntityManager em = DBUtil.getEmFactory().createEntityManager();
-      String qString = "SELECT u FROM Product u " +
-              "WHERE u.code = :code";
-      TypedQuery<Product> q = em.createQuery(qString, Product.class);
-      q.setParameter("code", code);
-      try {
-        Product product = q.getSingleResult();
-        return product;
-      } catch (NoResultException e) {
-        return null;
-      } finally {
+    List<Product> products;
+    try {
+      products = q.getResultList();
+      if (products.isEmpty())
+        products = null;
+    } finally {
         em.close();
-      }
     }
+    return products;
+  }
+       
+  public static Product selectByCode(String code) {
+    EntityManager em = DBUtil.getEmFactory().createEntityManager();
+    String qString = "SELECT u FROM Product u WHERE u.code = :code";
+    TypedQuery<Product> q = em.createQuery(qString, Product.class);
+    q.setParameter("code", code);
     
-    public static boolean codeExists(String code) {
-      Product u = selectByCode(code);   
-      return u != null;
+    Product product = null;
+    try {
+      product = q.getSingleResult();
+    } catch (NoResultException e) {
+      System.out.println(e);
+      product = null;
+    } finally {
+      em.close();
     }
-
+    return product;
+  }
+      
+  public static void update(Product product) {
+    EntityManager em = DBUtil.getEmFactory().createEntityManager();
+    EntityTransaction trans = em.getTransaction();
+    System.out.println("UPDATEDB");
+    try {
+      trans.begin();
+      em.merge(product);
+      trans.commit();
+    } catch (Exception e) {
+      System.out.println(e);
+      trans.rollback();
+    } finally {
+      em.close();
+    }
+  }
+    
+  public static void insert(Product product) {
+    EntityManager em = DBUtil.getEmFactory().createEntityManager();
+    EntityTransaction trans = em.getTransaction();
+    System.out.println("INSERTDB");
+    try {
+      trans.begin();
+      em.persist(product);
+      trans.commit();
+    } catch (Exception e) {
+      System.out.println(e);
+      trans.rollback();
+    } finally {
+      em.close();
+    }
+  }
+   
+  public static void delete(Product product) {
+    EntityManager em = DBUtil.getEmFactory().createEntityManager();
+    EntityTransaction trans = em.getTransaction();      
+    try {
+      trans.begin();
+      em.remove(em.merge(product));
+      trans.commit();
+    } catch (Exception e) {
+      System.out.println(e);
+      trans.rollback();
+    } finally {
+      em.close();
+    }       
+  }
+  // JPA Part End
   
-   public static void update(Product product) {
-        EntityManager em = DBUtil.getEmFactory().createEntityManager();
-        EntityTransaction trans = em.getTransaction();
-        trans.begin();       
-        try {
-            em.merge(product);
-            trans.commit();
-        } catch (Exception e) {
-            System.out.println(e);
-            trans.rollback();
-        } finally {
-            em.close();
-        }
-    }     
-    
-       public static void insert(Product product) {
-        EntityManager em = DBUtil.getEmFactory().createEntityManager();
-        EntityTransaction trans = em.getTransaction();
-        trans.begin();        
-        try {
-            em.persist(product);
-            trans.commit();
-        } catch (Exception e) {
-            System.out.println(e);
-            trans.rollback();
-        } finally {
-            em.close();
-        }
-    }
-   
-   
-   public static void delete(Product product) {
-        EntityManager em = DBUtil.getEmFactory().createEntityManager();
-        EntityTransaction trans = em.getTransaction();
-        trans.begin();        
-        try {
-            em.remove(em.merge(product));
-            trans.commit();
-        } catch (Exception e) {
-            System.out.println(e);
-            trans.rollback();
-        } finally {
-            em.close();
-        }       
-    }
-   
-// JPA Part End
-   
-   
   // closing public class ProductDB 
 }
-
-    
-

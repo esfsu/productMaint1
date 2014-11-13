@@ -14,48 +14,52 @@ import javax.persistence.Persistence;
  */
 public class DBUtil {
     
-   //JPA Entity Manager factory
-   private static final EntityManagerFactory emf =
-           Persistence.createEntityManagerFactory("productPU");
+  /*
+  *
+  * JPA Part
+  *
+  */
+  //JPA Entity Manager factory
+  private static final EntityManagerFactory emf =
+    Persistence.createEntityManagerFactory("productPU");
 
-   public static EntityManagerFactory getEmFactory() {
-       return emf;
-   }
-    //
-    
-    
-//    // JDBC Part
-//    public static void closeStatment(Statement s) {
-//        try {
-//            if (s != null) {
-//                s.close();
-//            }
-//        } catch (SQLException e) {
-//            System.out.println(e);
-//        }
-//    }
-//    
-//    public static void closePreparedStatement(Statement ps) {
-//        try {
-//            if (ps != null) {
-//                ps.close();
-//            }
-//        } catch (SQLException e) {
-//            System.out.println(e);
-//        } 
-//    }
-//    
-//    public static void closeResultSet(ResultSet rs) {
-//        try {
-//            if (rs != null) {
-//                rs.close();
-//            }
-//        } catch (SQLException e) {
-//            System.out.println(e);
-//        }
-//    }
-//    
-   
-    
-    
+  public static EntityManagerFactory getEmFactory() {
+      return emf;
+  }
+
+  /*
+  *
+  * JDBC Part
+  *
+  *
+  public static void closeStatment(Statement s) {
+    try {
+      if (s != null) {
+        s.close();
+      }
+    } catch (SQLException e) {
+      System.out.println(e);
+    }
+  }
+
+  public static void closePreparedStatement(Statement ps) {
+    try {
+      if (ps != null) {
+        ps.close();
+      }
+    } catch (SQLException e) {
+      System.out.println(e);
+    } 
+  }
+
+  public static void closeResultSet(ResultSet rs) {
+    try {
+      if (rs != null) {
+        rs.close();
+      }
+    } catch (SQLException e) {
+      System.out.println(e);
+    }
+  }
+  */
 }

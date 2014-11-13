@@ -3,11 +3,8 @@ package music.servlet;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import java.util.List;
-
 import music.data.*;
 import music.business.*;
-import music.data.*;
 
 public class ProdMaintServlet extends HttpServlet {
 
@@ -22,6 +19,7 @@ public class ProdMaintServlet extends HttpServlet {
     
     HttpSession session = request.getSession();
     session.setAttribute("products", ProductDB.selectAll());
+    session.setAttribute("error", null);
     
     // decide what to do based on action param
     String action = request.getParameter("action");
@@ -47,19 +45,50 @@ public class ProdMaintServlet extends HttpServlet {
         break;
         
       case "addConfirmed":
-        Product addProduct = new Product();
-        addProduct.setCode(request.getParameter("prodCode"));
-        addProduct.setDescription(request.getParameter("prodDescription"));
-        addProduct.setPrice(Double.parseDouble(request.getParameter("prodPrice")));
-
-        // decide between update and insert
-        if (ProductDB.codeExists(addProduct.getCode()) == false) {
-          ProductDB.insert(addProduct);
-        } else {
-          ProductDB.update(addProduct);
+        // create temp product
+        Product newProduct = ProductDB.selectByCode(request.getParameter("prodCode"));
+        Boolean isInsert = false;
+        if (newProduct == null) {
+          isInsert = !isInsert;
+          newProduct = new Product();
         }
+        
+        // populate these first, in case of Double error
+        String prodCode = request.getParameter("prodCode");
+        String prodDesc = request.getParameter("prodDescription");
+        newProduct.setCode(prodCode);
+        newProduct.setDescription(prodDesc);
+        session.setAttribute("product", newProduct);
+        
+        try {
+          // validate server side
+          if (prodCode.isEmpty() || prodDesc.isEmpty()) {
+            throw new Exception("Either product code or description is empty.");
+          }
+          
+          // possible number error exception
+          Double prodPrice = Double.parseDouble(request.getParameter("prodPrice"));
+          newProduct.setPrice(prodPrice);
+          session.setAttribute("product", newProduct);
+          
+          // decide between update and insert
+          if (isInsert) {
+            System.out.println("INSERT");
+            ProductDB.insert(newProduct);
+          } else {
+            System.out.println("UPDATE");
+            ProductDB.update(newProduct);
+          }
 
-        url = "/prodList.jsp";
+          url = "/prodList.jsp";
+        }
+        catch (Exception e)
+        {
+          // user input is improper
+          System.out.println(e);
+          session.setAttribute("error", true);
+          url = "/prodAdd.jsp";
+        }
         break;
                 
       case "deleteProduct":
@@ -75,8 +104,7 @@ public class ProdMaintServlet extends HttpServlet {
         
       case "deleteConfirmed":
         Product delProduct = (Product) session.getAttribute("product");
-        if (delProduct != null)
-        {
+        if (delProduct != null) {
           ProductDB.delete(delProduct);
         }
         

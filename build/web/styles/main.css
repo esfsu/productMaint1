@@ -64,3 +64,8 @@ input[type=text] {
 form {
   display: inline;
 }
+
+.error {
+  color: red;
+  font-weight: bold;
+}
