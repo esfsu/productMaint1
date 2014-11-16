@@ -2,7 +2,7 @@
     
 <h1>Product Maintenance</h1>
 
-<a href="productMaint?action=displayProducts">View Products</a>
+<a href="https://localhost:8443/productMaint1/loginPage.jsp">View Products</a>
         
 </body>
 </html>

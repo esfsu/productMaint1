@@ -14,4 +14,40 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+
+<login-config>
+    <auth-method>FORM</auth-method>
+    <form-login-config>
+        <form-login-page>/productMaint1/loginPage.jsp</form-login-page>
+        <form-error-page>/productMaint1/login_error.jsp</form-error-page>
+    </form-login-config>
+</login-config>
+
+  <security-role>
+      <description>programmers</description>
+      <role-name>programmer</role-name>
+  </security-role>
+ 
+  <security-role>
+      <description>customer service employees</description>
+      <role-name>service</role-name>
+  </security-role>
+  
+<security-constraint>    
+      <web-resource-collection>
+          <web-resource-name>Restricted Area</web-resource-name>
+          <url-pattern>/prodAdd.jsp, /prodDelete.jsp, /prodList.jsp
+          </url-pattern>
+      </web-resource-collection>
+      
+      <auth-constraint>
+          <role-name>programmer</role-name>
+          <role-name>service</role-name>
+      </auth-constraint>
+      
+      <user-data-constraint>
+          <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+      </user-data-constraint>        
+  </security-constraint>
+  
 </web-app>
