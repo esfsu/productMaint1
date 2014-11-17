@@ -1,4 +1,4 @@
-<%@ include file="/includes/header.html" %>
+<%@ include file="../includes/header.html" %>
 <!DOCTYPE html>
 <html>
       <body>

@@ -15,4 +15,5 @@ removeAbandonedTimeout="60" type="javax.sql.DataSource" />
     connectionName="root" connectionPassword="sesame"
     userTable="UserPass" userNameCol="Username" userCredCol="Password"
     userRoleTable="UserRole" roleNameCol="Rolename" />
+
 </Context>

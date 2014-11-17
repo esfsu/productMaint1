@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="/includes/header.html" %>
+<%@ include file="../includes/header.html" %>
     
 <h1>Product</h1>
 

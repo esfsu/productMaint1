@@ -26,11 +26,11 @@ public class ProdMaintServlet extends HttpServlet {
     if (action == null)
       action = "displayProducts";
     
-    String url = "/prodList.jsp";
+    String url = "/admin/prodList.jsp";
     switch (action)
     {
       case "displayProducts":
-        url = "/prodList.jsp";
+        url = "/admin/prodList.jsp";
         break;
         
       case "addProduct":
@@ -41,7 +41,7 @@ public class ProdMaintServlet extends HttpServlet {
           session.setAttribute("product", null);
         }
         
-        url = "/prodAdd.jsp";
+        url = "/admin/prodAdd.jsp";
         break;
         
       case "addConfirmed":
@@ -79,14 +79,14 @@ public class ProdMaintServlet extends HttpServlet {
           }
 
           session.setAttribute("products", ProductDB.selectAll());
-          url = "/prodList.jsp";
+          url = "/admin/prodList.jsp";
         }
         catch (Exception e)
         {
           // user input is improper
           System.out.println(e);
           session.setAttribute("error", true);
-          url = "/prodAdd.jsp";
+          url = "/admin/prodAdd.jsp";
         }
         break;
                 
@@ -98,7 +98,7 @@ public class ProdMaintServlet extends HttpServlet {
           session.setAttribute("product", null);
         }
         
-        url = "/prodDelete.jsp";
+        url = "/admin/prodDelete.jsp";
         break;
         
       case "deleteConfirmed":
@@ -108,7 +108,7 @@ public class ProdMaintServlet extends HttpServlet {
         }
         
         session.setAttribute("products", ProductDB.selectAll());
-        url = "/prodList.jsp";
+        url = "/admin/prodList.jsp";
         break;
     }
     
