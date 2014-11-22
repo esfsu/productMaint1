@@ -4,10 +4,14 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/web-project/3">
             <name>productMaint1</name>
-            <minimum-ant-version>1.6.5</minimum-ant-version>
+            <minimum-ant-version>1.6</minimum-ant-version>
             <web-module-libraries>
                 <library dirs="200">
                     <file>${libs.jstl.classpath}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${libs.eclipselink.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
@@ -15,11 +19,15 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.tomcat-dbcp.jar}</file>
+                    <file>${file.reference.javax.mail.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${libs.eclipselink.classpath}</file>
+                    <file>${file.reference.poi-3.10-FINAL-20140208.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.tomcat-dbcp.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>
