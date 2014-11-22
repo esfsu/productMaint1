@@ -1,6 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="../includes/header.html" %>
-    
+<jsp:include page="/includes/header.jsp" />
+<jsp:include page="/includes/column_left_all.jsp" />
+
+<section>
+
 <h1>Products</h1>
 
 <table class="border">
@@ -18,8 +21,8 @@
         <td><c:out value="${product.code}" /></td>
         <td><c:out value="${product.description}" /></td>
         <td class="right"><c:out value="${product.price}" /></td>
-        <td><a href="productMaint?action=addProduct&productCode=${product.code}">Edit</a></td>
-        <td><a href="productMaint?action=deleteProduct&productCode=${product.code}">Delete</a></td>
+        <td><a href="addProduct?productCode=${product.code}">Edit</a></td>
+        <td><a href="deleteProduct?productCode=${product.code}">Delete</a></td>
       </tr>
       </c:forEach>
     </c:when>
@@ -31,10 +34,10 @@
   </c:choose>
 </table><br />
     
-<form action="productMaint" method="post">
-  <input type="hidden" name="action" value="addProduct" />
+<form action="addProduct" method="post">
   <input type="submit" value="Add Product" />
 </form>
+
+</section>
         
-</body>
-</html>
+<jsp:include page="/includes/footer.jsp" />

@@ -1,6 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="../includes/header.html" %>
-    
+<jsp:include page="/includes/header.jsp" />
+<jsp:include page="/includes/column_left_all.jsp" />
+
+<section>
+
 <h1>Are you sure you want to delete this product?</h1>
 
 <table class="noBorder noPad">
@@ -21,19 +24,18 @@
 <table>
   <tr>
     <td>
-      <form action="productMaint" method="post">
-        <input type="hidden" name="action" value="deleteConfirmed">
+      <form action="deleteConfirmed" method="post">
         <input type="submit" value="Yes">
       </form>
     </td>
     <td>
-      <form action="productMaint" method="post">
-        <input type="hidden" name="action" value="displayProducts">
+      <form action="prodList" method="post">
         <input type="submit" value="No">
       </form>
     </td>
   </tr>
 </table>
   
-</body>
-</html>
+</section>
+  
+<jsp:include page="/includes/footer.jsp" />

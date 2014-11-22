@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/productMaint1">
-
-<Resource name="jdbc/music" auth="Container"
-driverClassName="com.mysql.jdbc.Driver"
-url="jdbc:mysql://localhost:3306/music?autoReconnect=true"
-username="root" password="sesame"
-maxActive="100" maxIdle="30" maxWait="10000"
-logAbandoned="true" removeAbandoned="true"
-removeAbandonedTimeout="60" type="javax.sql.DataSource" />
-
-<Realm className="org.apache.catalina.realm.JDBCRealm" debug="99"
-    driverName="com.mysql.jdbc.Driver"
-    connectionURL="jdbc:mysql://localhost:3306/murach"
-    connectionName="root" connectionPassword="sesame"
-    userTable="UserPass" userNameCol="Username" userCredCol="Password"
-    userRoleTable="UserRole" roleNameCol="Rolename" />
-
+<Context path="/productMaint1">
+  <!-- the murach database that contains admin usernames and passwords -->
+  <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" logAbandoned="true" maxActive="100" maxIdle="30" maxWait="10000" name="jdbc/murachDB" password="sesame" removeAbandoned="true" removeAbandonedTimeout="60" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/murach?autoReconnect=true" username="root"/>
+  
+  <Realm className="org.apache.catalina.realm.DataSourceRealm" dataSourceName="jdbc/murachDB" debug="99" localDataSource="true" roleNameCol="Rolename" userCredCol="Password" userNameCol="Username" userRoleTable="UserRole" userTable="UserPass"/>
 </Context>

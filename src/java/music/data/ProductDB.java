@@ -210,6 +210,24 @@ public class ProductDB {
     }
     return product;
   }
+  
+  public static Product selectProduct(String code) {
+      EntityManager em = DBUtil.getEmFactory().createEntityManager();
+      String qString = "SELECT p FROM Product p " +
+              "WHERE p.code = :code";
+      TypedQuery<Product> q = em.createQuery(qString, Product.class);
+      q.setParameter("code", code);
+      Product result = null;
+      try {
+          result = q.getSingleResult();
+      } catch (NoResultException ex) {
+          return null;
+      } finally {
+          em.close();
+      }
+
+      return (Product)result;
+  }
       
   public static void update(Product product) {
     EntityManager em = DBUtil.getEmFactory().createEntityManager();
